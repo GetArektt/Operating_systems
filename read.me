@@ -1,0 +1,91 @@
+Przedmiot: Systemy operacyjne - laboratorium
+Tematyka: System plików
+
+Zagadnienie systemu plików jest pierwotnie omawiane i przerabiane w ramach przedmiotu
+Wstęp do administracji i bezpieczeństwa komputerowego
+
+Poniżej znajdują się zadania będącę kontynuacją tego tematu.
+
+Utwórz dwa pliki o rozmiarze 100 MB:
+Plik pusty:
+nazwa: zero.dat
+zawartość: puste wartości
+podpowiedź: polecenie dd, źródło /dev/zero
+Plik z danymi losowymi:
+nazwa: losowy.dat
+zawartość: liczby losowe
+podpowiedź: źródło /dev/urandom
+
+1.1. Badanie stopnia upakowania (kompresji)
+Spakuj pliki dowolnym programem (gzip, zip) i wyjaśnij nowe rozmiary plików.
+
+1.2. Dowiązania
+Do pliku losowy.dat stwórz dowiązanie miękkie i twarde, odpowiedzio: losowy-soft.dat, losowy-hard.dat
+Korzystając z poleceń: ls, du oraz stat wyjaśnij zajętość przestrzeni przez poszczególne dowiązania.
+
+1.3. System plików
+Na pliku pusty.dat załóż system plików ext4 i zamontuj w systemie plików.
+Podpowiedź: wykład.
+Spraw, aby montowanie/odmontowywanie tego systemu plików możliwe było przez użytkownika bez uprawnień root (podpowiedź: plik /etc/fstab).
+
+1.4. Przeniesione do laboratorium dot. bezpieczeństwa
+
+1.5. Napisz program w C/C++ kopiujący zawartość pliku na podstawie podanych parametrów.
+./kopiuj <rozmiar bufora> <plik.src> <plik.trg>
+Proszę sprawdzić jaka jest zależność czasu kopiowania od rozmiaru bufora.
+
+1.6. Napisz polecenie/skrypt wykrywający wszystkie przypadki zapętlonego linkowania miękkiego.
+./sprawdz-miekkie-linki.sh <katalog>
+Podaj liczbę zapętleń (wypisz je) oraz długość poszczególnych zapętleń.
+
+1.7. Napisz polecenie/skrypt wykrywający wszystkie przypadki hardlinkowania.
+./sprawdz-twarde-linki.sh <katalog>
+Podpowiedzi:
+Sprawdzenie, ile dowiązań ma plik (wpis w pliku katalogu): stat <nazwa pliku>
+Znalezienie plików o zadanej liczbie dowiązań: find -links <parametr>
+Pominąć rekordy, w których dana konfiguracja występuje jednokrotnie.
+
+1.8. Napisz polecenie/skrypt wypisujący statystykę plików w zadanym drzewie dla każdej konfiguracji ustawień dostępu.
+./statystyka-uprawnien.sh <katalog>
+1 drwx------	- pominąć
+1 -rw-------	- pominąć
+1 -rwsr-sr-x	- pominąć
+1 -rwx------	- pominąć
+1 -rwxr-xr–	- pominąć
+1 -r-xr-xr-x	- pominąć
+2 -r--r--r--
+4 drwxrwsr-x
+10 -rwxr-sr-x
+ 12 -rwsr-xr--
+ 16 -rwsr-xr-x
+  16169 -rwxr-xr-x
+  24836 drwxr-xr-x
+  25683 lrwxrwxrwx
+222177 -rw-r--r--
+
+
+Ile będzie takich konfiguracji ? (pozycje od lewej)
+Pozycja 1: typ pliku: b, c, d, p, f (-), l, s = 7 możliwości
+Pozycja 2: r lub (-) = 2 możliwości
+Pozycja 3: w lub (-) = 2 możliwości
+Pozycja 4: x lub S lub (-) = 3 możliwości
+Pozycja 5: r lub (-) = 2 możliwości
+Pozycja 6: w lub (-) = 2 możliwości
+Pozycja 7: x lub S lub (-) = 3 możliwości
+Pozycja 8: r lub (-) = 2 możliwości
+Pozycja 9: w lub (-) = 2 możliwości
+Pozycja 7: x lub T lub t lub (-) = 4 możliwości
+Liczba możliwości: 16128
+Wypisać tylko te, dla których znaleziono pliki.
+
+
+1.9. Porównanie efektywności systemu pliku, w zależności od wielkości bloku
+
+Przygotuj 4 pliki o wielkości 100 MB każdy i nazwach: disc_512, disc_1024, disc_2048, disc_4096 (wskazówka: użyj urządzenia /dev/zero).
+Załóż system plików na każdym z utworzonych plików poleceniem mkfs.ext4 ustawiając odpowiednio dla nazwy pliku wielkość bloku, tj.: 512, 1024, 2048, 4096.
+Jaka jest maksymalna liczba plików, które można utworzyć na każdym z tych systemów?
+Zamontuj utworzone pliki tak, jak urządzenia blokowe (wskazówka: skorzystaj z loop).
+Wrzuć do każdego podmontowanego urządzenia:
+1000 plików o rozmiarach (do wszystkich ten sam zestaw), kolejno: 512, 1024, 2048, 4096 bajtów. - który rozmiar bloku systemu plików najefektywniej przechowuje poszczególne rozmiary plików ?
+1000 plików o losowym rozmiarze od 256 B do 8192 B - który rozmiar bloku systemu plików najefektywnien 
+
